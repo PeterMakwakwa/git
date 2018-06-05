@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ApplesoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cutomers">
+          <Key>
+            <PropertyRef Name="CutomerCount" />
+          </Key>
+          <Property Name="CutomerCount" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="storeID" Type="int" Nullable="false" />
+          <Property Name="Dates" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Stores">
+          <Key>
+            <PropertyRef Name="storeID" />
+          </Key>
+          <Property Name="storeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="storeName" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK_cutomers_Stores">
+          <End Role="Stores" Type="Self.Stores" Multiplicity="1" />
+          <End Role="cutomers" Type="Self.cutomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stores">
+              <PropertyRef Name="storeID" />
+            </Principal>
+            <Dependent Role="cutomers">
+              <PropertyRef Name="storeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ApplesoftModelStoreContainer">
+          <EntitySet Name="cutomers" EntityType="Self.cutomers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stores" EntityType="Self.Stores" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_cutomers_Stores" Association="Self.FK_cutomers_Stores">
+            <End Role="Stores" EntitySet="Stores" />
+            <End Role="cutomers" EntitySet="cutomers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ApplesoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cutomer">
+          <Key>
+            <PropertyRef Name="CutomerCount" />
+          </Key>
+          <Property Name="CutomerCount" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="storeID" Type="Int32" Nullable="false" />
+          <Property Name="Dates" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Store" Relationship="Self.FK_cutomers_Stores" FromRole="cutomers" ToRole="Stores" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="storeID" />
+          </Key>
+          <Property Name="storeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="storeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cutomers" Relationship="Self.FK_cutomers_Stores" FromRole="Stores" ToRole="cutomers" />
+        </EntityType>
+        <Association Name="FK_cutomers_Stores">
+          <End Role="Stores" Type="Self.Store" Multiplicity="1" />
+          <End Role="cutomers" Type="Self.cutomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stores">
+              <PropertyRef Name="storeID" />
+            </Principal>
+            <Dependent Role="cutomers">
+              <PropertyRef Name="storeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ApplesoftEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cutomers" EntityType="Self.cutomer" />
+          <EntitySet Name="Stores" EntityType="Self.Store" />
+          <AssociationSet Name="FK_cutomers_Stores" Association="Self.FK_cutomers_Stores">
+            <End Role="Stores" EntitySet="Stores" />
+            <End Role="cutomers" EntitySet="cutomers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ApplesoftModelStoreContainer" CdmEntityContainer="ApplesoftEntities">
+          <EntitySetMapping Name="cutomers">
+            <EntityTypeMapping TypeName="ApplesoftModel.cutomer">
+              <MappingFragment StoreEntitySet="cutomers">
+                <ScalarProperty Name="CutomerCount" ColumnName="CutomerCount" />
+                <ScalarProperty Name="storeID" ColumnName="storeID" />
+                <ScalarProperty Name="Dates" ColumnName="Dates" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stores">
+            <EntityTypeMapping TypeName="ApplesoftModel.Store">
+              <MappingFragment StoreEntitySet="Stores">
+                <ScalarProperty Name="storeID" ColumnName="storeID" />
+                <ScalarProperty Name="storeName" ColumnName="storeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
